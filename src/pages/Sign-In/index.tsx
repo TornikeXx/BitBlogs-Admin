@@ -1,8 +1,6 @@
-import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import { Controller, useForm } from "react-hook-form";
-import { login } from "../../supabase/auth";
 import { Button, Input } from "antd";
+import { useHandleLogIn } from "../../react-query/mutation/auth";
 
 type FormValues = {
   email: string;
@@ -10,15 +8,7 @@ type FormValues = {
 };
 
 const SignIn = () => {
-  const navigate = useNavigate();
-
-  const { mutate: handleLogIn } = useMutation({
-    mutationKey: ["login"],
-    mutationFn: login,
-    onSuccess: () => {
-      navigate("/");
-    },
-  });
+  const { mutate: handleLogIn } = useHandleLogIn();
 
   const { control, handleSubmit, reset } = useForm<FormValues>({
     defaultValues: {

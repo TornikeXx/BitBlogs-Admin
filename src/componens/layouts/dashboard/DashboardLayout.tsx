@@ -1,7 +1,6 @@
 import { Layout, Menu, MenuProps, theme } from "antd";
-import { Link, Outlet, useNavigate } from "react-router-dom";
-import { logout } from "../../../supabase/auth";
-import { useMutation } from "@tanstack/react-query";
+import { Link, Outlet } from "react-router-dom";
+import { useHandleLogOut } from "../../../react-query/mutation/auth";
 
 const { Header, Content, Sider } = Layout;
 
@@ -31,15 +30,11 @@ const items2: MenuProps["items"] = [
 ];
 
 const AdminLayout = () => {
-  const navigate = useNavigate();
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  const { mutate: handleLogOut } = useMutation({
-    mutationKey: ["logout"],
-    mutationFn: logout,
-    onSuccess: () => navigate("/login"),
-  });
+
+  const { mutate: handleLogOut } = useHandleLogOut();
 
   return (
     <Layout>

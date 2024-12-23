@@ -1,15 +1,11 @@
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { useQuery } from "@tanstack/react-query";
 import { Button, Table } from "antd";
 import { useNavigate } from "react-router-dom";
-import { getBlogs } from "../../../supabase/blogs";
 import { mapOverBlogs } from "../../../utils/mapOverBlogs";
+import { useGetBlogs } from "../../../react-query/query/blogs";
 
 const BlogsListPage = () => {
-  const { data, isLoading } = useQuery({
-    queryKey: ["get-blogs"],
-    queryFn: getBlogs,
-  });
+  const { data, isLoading } = useGetBlogs();
   const { Column } = Table;
   // @ts-expect-error data typeing
   const mappedBlog = mapOverBlogs(data);

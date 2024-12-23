@@ -1,19 +1,12 @@
-import { useMutation } from "@tanstack/react-query";
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
-import { createUser } from "../../../supabase/admin";
+import { useCreateUser } from "../../../react-query/mutation/admin";
 const { Item } = Form;
 
 const CreateUserPage = () => {
   const [form] = useForm();
 
-  const { mutate } = useMutation({
-    mutationKey: ["create-user"],
-    mutationFn: createUser,
-    onSuccess: () => {
-      console.log("good");
-    },
-  });
+  const { mutate } = useCreateUser();
 
   const handleSubmit = (values: { Email: string; Password: string }) => {
     mutate({

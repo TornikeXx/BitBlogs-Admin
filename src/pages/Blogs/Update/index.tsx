@@ -1,40 +1,23 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
-import { useNavigate, useParams } from "react-router-dom";
-import { Blog, getBlogById, updateBlog } from "../../../supabase/blogs";
+import { useParams } from "react-router-dom";
 import FormsSkeleton from "../../../componens/FormsSkeleton/FormsSkeleton";
+import { useGetBlogById } from "../../../react-query/query/blogs";
+import { useUpdateBlog } from "../../../react-query/mutation/blogs";
 const { Item } = Form;
 
 type InitialValues = { Description: string; Title: string };
 
 const UpdateBlogPage = () => {
-  const queryClient = useQueryClient();
   const [form] = useForm();
-  const navigate = useNavigate();
 
   const { id } = useParams<{ id: string }>();
   const blogId = id ?? "";
 
-  const { mutate } = useMutation({
-    mutationKey: ["update-blog"],
-    mutationFn: (params: { id: string; payload: Partial<Blog> }) =>
-      updateBlog(params),
-    onSuccess: () => {
-      navigate("/blogs");
-      queryClient.invalidateQueries({ queryKey: ["single-blog"] });
-    },
-  });
+  const { mutate } = useUpdateBlog();
 
-  const { data, isLoading } = useQuery({
-    queryKey: ["single-blog", id],
-    queryFn: () => {
-      if (id) {
-        return getBlogById(id);
-      }
-      return null;
-    },
-  });
+  const { data, isLoading } = useGetBlogById(id as string);
+
   if (isLoading) {
     return <FormsSkeleton />;
   }

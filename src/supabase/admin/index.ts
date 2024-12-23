@@ -22,11 +22,12 @@ export const createUser = (payload: { email: string; password: string }) => {
   });
 };
 
-export const getSingleUserInAdmin = (id: string) => {
+export const getSingleUserInAdmin = async (id: string) => {
   return supabase.auth.admin.getUserById(id).then((res) => {
     return res.data.user;
   });
 };
+
 export type User = {
   id: string;
   aud: string;

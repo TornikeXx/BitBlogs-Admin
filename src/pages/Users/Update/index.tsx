@@ -1,12 +1,9 @@
-import { useQuery } from "@tanstack/react-query";
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
-import {
-  getSingleUserInAdmin,
-  updateUserInAdmin,
-} from "../../../supabase/admin";
+import { updateUserInAdmin } from "../../../supabase/admin";
 import { useParams } from "react-router-dom";
 import FormsSkeleton from "../../../componens/FormsSkeleton/FormsSkeleton";
+import { useGetSingleUserInAdmin } from "../../../react-query/query/admin";
 const { Item } = Form;
 
 type InitialValues = { email: string; phone: string };
@@ -17,15 +14,7 @@ const UpdateAdminPage = () => {
   const handleSubmit = (values: { email: string; phone: string }) => {
     updateUserInAdmin(id as string, values);
   };
-  const { data, isLoading } = useQuery({
-    queryKey: ["single-user", id],
-    queryFn: () => {
-      if (id) {
-        return getSingleUserInAdmin(id);
-      }
-      return null;
-    },
-  });
+  const { data, isLoading } = useGetSingleUserInAdmin(id as string);
   if (isLoading) {
     return <FormsSkeleton />;
   }

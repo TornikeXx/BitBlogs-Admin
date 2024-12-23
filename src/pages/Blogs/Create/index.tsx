@@ -1,18 +1,12 @@
-import { useMutation } from "@tanstack/react-query";
-import { addBlog } from "../../../supabase/blogs";
 import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
+import { useHandleAddBlog } from "../../../react-query/mutation/blogs";
 const { Item } = Form;
 
 const CreateBlogPage = () => {
   const [form] = useForm();
-  const { mutate: addBlogToList } = useMutation({
-    mutationKey: ["add-blog"],
-    mutationFn: addBlog,
-    onSuccess: () => {
-      console.log("success");
-    },
-  });
+
+  const { mutate: addBlogToList } = useHandleAddBlog();
   const handleSubmit = (values: { Description: string; Title: string }) => {
     addBlogToList({
       description_en: values.Description,

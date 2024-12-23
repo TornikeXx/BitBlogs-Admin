@@ -1,16 +1,11 @@
-import { useQuery } from "@tanstack/react-query";
-import { getAdmin } from "../../../supabase/admin";
 import { Button, Table } from "antd";
 import { mapOverAdminsInfo } from "../../../utils/mapOverAdmins";
 import { EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useGetAdmin } from "../../../react-query/query/admin";
 
 const UsersListPage = () => {
-  const { data, isLoading } = useQuery({
-    queryKey: ["get-admin"],
-    queryFn: getAdmin,
-  });
-  console.log(data);
+  const { data, isLoading } = useGetAdmin();
   const { Column } = Table;
 
   // @ts-expect-error data typeing
